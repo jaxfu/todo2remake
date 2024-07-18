@@ -1,17 +1,14 @@
-import { useEffect, useState } from "react";
-
-import Listings from "../components/Listings";
-import AddTodo from "../components/AddTodo";
-import NewTodo from "../components/NewTodo";
-import type { T_TODO } from "../../types";
 import { apiRequestGetTodos } from "../../methods/requests";
-import type { AxiosResponse } from "axios";
+import { useQuery } from "@tanstack/react-query";
 
 const AllTodos: React.FC = () => {
-	useEffect(() => {
-		const res: AxiosResponse<T_TODO[]> = apiRequestGetTodos("");
-		console.log(res.data);
-	}, []);
+	const { isError, isSuccess, data } = useQuery({
+		queryKey: ["todos"],
+		queryFn: () => apiRequestGetTodos(""),
+	});
+
+	if (isError) console.log("Error");
+	if (isSuccess) console.log(`${JSON.stringify(data.data)}`);
 
 	return <h1>AllTodos</h1>;
 };

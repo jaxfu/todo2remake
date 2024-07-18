@@ -55,7 +55,7 @@ export async function apiRequestGetTodos(
 	try {
 		return await axios<T_TODO[]>({
 			method: "POST",
-			url: API_ROUTES.REGISTER,
+			url: API_ROUTES.GET_TODOS,
 			data: {
 				username,
 			},
