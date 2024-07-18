@@ -8,9 +8,9 @@ import (
 )
 
 var testTodos = []types.Todo{
-	{Title: "test", Content: "test"},
-	{Title: "test2", Content: "test2"},
-	{Title: "test3", Content: "test3"},
+	{ID: 1, Title: "test", Content: "test"},
+	{ID: 2, Title: "test2", Content: "test2"},
+	{ID: 3, Title: "test3", Content: "test3"},
 }
 
 func GetTodos() gin.HandlerFunc {

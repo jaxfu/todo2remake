@@ -1,16 +1,35 @@
+import styles from "./AllTodos.module.scss";
 import { apiRequestGetTodos } from "../../methods/requests";
 import { useQuery } from "@tanstack/react-query";
+import type { T_TODO } from "../../types";
+import Todo from "./children/Todo/Todo";
 
 const AllTodos: React.FC = () => {
-	const { isError, isSuccess, data } = useQuery({
+	const { isPending, isError, isSuccess, data } = useQuery({
 		queryKey: ["todos"],
 		queryFn: () => apiRequestGetTodos(""),
 	});
 
-	if (isError) console.log("Error");
-	if (isSuccess) console.log(`${JSON.stringify(data.data)}`);
+	if (isError) {
+		console.log("Error");
+		return <h2>Error...</h2>;
+	}
+	if (isPending) {
+		return <h2>Loading...</h2>;
+	}
 
-	return <h1>AllTodos</h1>;
+	if (isSuccess) {
+		console.log(`${JSON.stringify(data.data)}`);
+
+		const todos: T_TODO[] = data.data;
+		return (
+			<div className={`${styles.root}`}>
+				{todos.map((todo) => (
+					<Todo key={todo.id} todo={todo} />
+				))}
+			</div>
+		);
+	}
 };
 
 // const AllTodos = () => {

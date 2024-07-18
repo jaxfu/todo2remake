@@ -1,23 +1,24 @@
 export type T_FORMINFO_REGISTER = {
-	username: string;
-	firstPassword: string;
-	secondPassword: string;
+  username: string;
+  firstPassword: string;
+  secondPassword: string;
 };
 
 export type T_APIRESULT_REGISTER = {
-	valid: boolean;
+  valid: boolean;
 };
 
 export type T_FORMINFO_LOGIN = {
-	username: string;
-	password: string;
+  username: string;
+  password: string;
 };
 
 export type T_APIRESULT_LOGIN = {
-	valid: boolean;
+  valid: boolean;
 };
 
 export type T_TODO = {
-	title: string;
-	content: string;
+  id: number;
+  title: string;
+  content: string;
 };
