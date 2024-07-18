@@ -6,13 +6,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type ApiResponseRegister struct {
+type apiResponseRegister struct {
 	Valid bool `json:"valid"`
 }
 
 func Register() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		ctx.JSON(http.StatusOK, ApiResponseRegister{Valid: true})
+		ctx.JSON(http.StatusOK, apiResponseRegister{Valid: true})
 	}
 }
 

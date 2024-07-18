@@ -29,8 +29,8 @@ func main() {
 	}
 
 	// DB
-	//db := dbHandler.InitDBHandler(os.Getenv("DB_URL"))
-	//defer db.Conn.Close()
+	// db := dbHandler.InitDBHandler(os.Getenv("DB_URL"))
+	// defer db.Conn.Close()
 
 	// ROUTING
 	router := gin.Default()
@@ -39,11 +39,12 @@ func main() {
 		config := cors.DefaultConfig()
 		config.AllowAllOrigins = true
 		config.AllowMethods = []string{"POST", "GET"}
-		//config.AllowHeaders = []string{consts.HeaderTypeAuthorization, "Content-Type"}
+		// config.AllowHeaders = []string{consts.HeaderTypeAuthorization, "Content-Type"}
 		router.Use(cors.New(config))
 	}
 
 	router.POST(consts.RouteUrlRegister, routes.Register())
+	router.POST(consts.RouteUrlLogin, routes.Login())
 
 	router.Use(spa.Middleware("/", "client"))
 

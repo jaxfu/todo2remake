@@ -1,5 +1,10 @@
 import axios, { AxiosResponse } from "axios";
-import { type T_FORMINFO_REGISTER, type T_APIRESULT_REGISTER } from "../types";
+import {
+	type T_FORMINFO_REGISTER,
+	type T_APIRESULT_REGISTER,
+	type T_FORMINFO_LOGIN,
+	type T_APIRESULT_LOGIN,
+} from "../types";
 
 // Routes
 const ROUTE_PREFIX: string = import.meta.env.DEV ? "http://localhost:5000" : "";
@@ -9,21 +14,21 @@ const API_ROUTES = {
 	VALIDATE: ROUTE_PREFIX + "/api/validateSession",
 };
 
-// export async function apiRequestLogin(
-// 	formInfo: T_FORMINFO_REGISTER
-// ): Promise<AxiosResponse<T_APIRESULT_LOGIN>> {
-// 	try {
-// 		return await axios<T_APIRESULT_LOGIN>({
-// 			method: "POST",
-// 			url: API_ROUTES.LOGIN,
-// 			data: {
-// 				...formInfo,
-// 			},
-// 		});
-// 	} catch (err: any) {
-// 		throw new Error(err);
-// 	}
-// }
+export async function apiRequestLogin(
+	formInfo: T_FORMINFO_LOGIN
+): Promise<AxiosResponse<T_APIRESULT_LOGIN>> {
+	try {
+		return await axios<T_APIRESULT_LOGIN>({
+			method: "POST",
+			url: API_ROUTES.LOGIN,
+			data: {
+				...formInfo,
+			},
+		});
+	} catch (err: any) {
+		throw new Error(err);
+	}
+}
 
 export async function apiRequestRegister(
 	formInfo: T_FORMINFO_REGISTER
