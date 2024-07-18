@@ -4,6 +4,7 @@ import {
 	type T_APIRESULT_REGISTER,
 	type T_FORMINFO_LOGIN,
 	type T_APIRESULT_LOGIN,
+	type T_TODO,
 } from "../types";
 
 // Routes
@@ -12,6 +13,7 @@ const API_ROUTES = {
 	LOGIN: ROUTE_PREFIX + "/api/login",
 	REGISTER: ROUTE_PREFIX + "/api/register",
 	VALIDATE: ROUTE_PREFIX + "/api/validateSession",
+	GET_TODOS: ROUTE_PREFIX + "/api/getTodos",
 };
 
 export async function apiRequestLogin(
@@ -40,6 +42,22 @@ export async function apiRequestRegister(
 			data: {
 				username: formInfo.username,
 				password: formInfo.firstPassword,
+			},
+		});
+	} catch (err: any) {
+		throw new Error(err);
+	}
+}
+
+export async function apiRequestGetTodos(
+	username: string
+): Promise<AxiosResponse<T_TODO[]>> {
+	try {
+		return await axios<T_TODO[]>({
+			method: "POST",
+			url: API_ROUTES.REGISTER,
+			data: {
+				username,
 			},
 		});
 	} catch (err: any) {

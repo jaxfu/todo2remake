@@ -16,3 +16,8 @@ export type T_FORMINFO_LOGIN = {
 export type T_APIRESULT_LOGIN = {
 	valid: boolean;
 };
+
+export type T_TODO = {
+	title: string;
+	content: string;
+};
