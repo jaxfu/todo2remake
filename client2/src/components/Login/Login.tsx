@@ -1,10 +1,6 @@
 import styles from "./Login.module.scss";
 import { useState } from "react";
-import {
-	type T_APIRESULT_REGISTER,
-	type T_FORMINFO_LOGIN,
-	type T_FORMINFO_REGISTER,
-} from "../../types";
+import { type T_APIRESULT_REGISTER, type T_FORMINFO_LOGIN } from "../../types";
 import { apiRequestLogin } from "../../methods/requests";
 import { AxiosResponse } from "axios";
 
