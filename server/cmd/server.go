@@ -45,6 +45,7 @@ func main() {
 
 	router.POST(consts.RouteUrlRegister, routes.Register())
 	router.POST(consts.RouteUrlLogin, routes.Login())
+	router.POST(consts.RouteUrlGetTodos, routes.GetTodos())
 
 	router.Use(spa.Middleware("/", "client"))
 
