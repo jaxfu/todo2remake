@@ -3,7 +3,6 @@ import {
 	type T_FORMINFO_REGISTER,
 	type T_APIRESULT_VALID,
 	type T_FORMINFO_LOGIN,
-	type T_APIRESULT_LOGIN,
 	type T_TODO,
 } from "../types";
 
