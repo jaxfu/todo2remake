@@ -1,6 +1,6 @@
 import styles from "./Login.module.scss";
 import { useState } from "react";
-import { type T_APIRESULT_REGISTER, type T_FORMINFO_LOGIN } from "../../types";
+import { type T_APIRESULT_VALID, type T_FORMINFO_LOGIN } from "../../types";
 import { apiRequestLogin } from "../../methods/requests";
 import { AxiosResponse } from "axios";
 
@@ -20,7 +20,7 @@ const Login = () => {
 	}
 
 	async function login(): Promise<void> {
-		const res: AxiosResponse<T_APIRESULT_REGISTER> = await apiRequestLogin(
+		const res: AxiosResponse<T_APIRESULT_VALID> = await apiRequestLogin(
 			userFormInfo
 		);
 		console.log(`register valid: ${res.data.valid}`);

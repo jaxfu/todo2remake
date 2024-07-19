@@ -1,9 +1,6 @@
 import styles from "./Register.module.scss";
 import { useState } from "react";
-import {
-	type T_APIRESULT_REGISTER,
-	type T_FORMINFO_REGISTER,
-} from "../../types";
+import { type T_APIRESULT_VALID, type T_FORMINFO_REGISTER } from "../../types";
 import { apiRequestRegister } from "../../methods/requests";
 import { AxiosResponse } from "axios";
 
@@ -24,7 +21,7 @@ const Register = () => {
 	}
 
 	async function register(): Promise<void> {
-		const res: AxiosResponse<T_APIRESULT_REGISTER> = await apiRequestRegister(
+		const res: AxiosResponse<T_APIRESULT_VALID> = await apiRequestRegister(
 			userFormInfo
 		);
 		console.log(`register valid: ${res.data.valid}`);

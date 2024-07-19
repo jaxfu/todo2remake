@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import {
 	type T_FORMINFO_REGISTER,
-	type T_APIRESULT_REGISTER,
+	type T_APIRESULT_VALID,
 	type T_FORMINFO_LOGIN,
 	type T_APIRESULT_LOGIN,
 	type T_TODO,
@@ -14,13 +14,14 @@ const API_ROUTES = {
 	REGISTER: ROUTE_PREFIX + "/api/register",
 	VALIDATE: ROUTE_PREFIX + "/api/validateSession",
 	GET_TODOS: ROUTE_PREFIX + "/api/getTodos",
+	ADD_TODO: ROUTE_PREFIX + "/api/addTodo",
 };
 
 export async function apiRequestLogin(
 	formInfo: T_FORMINFO_LOGIN
-): Promise<AxiosResponse<T_APIRESULT_LOGIN>> {
+): Promise<AxiosResponse<T_APIRESULT_VALID>> {
 	try {
-		return await axios<T_APIRESULT_LOGIN>({
+		return await axios<T_APIRESULT_VALID>({
 			method: "POST",
 			url: API_ROUTES.LOGIN,
 			data: {
@@ -34,9 +35,9 @@ export async function apiRequestLogin(
 
 export async function apiRequestRegister(
 	formInfo: T_FORMINFO_REGISTER
-): Promise<AxiosResponse<T_APIRESULT_REGISTER>> {
+): Promise<AxiosResponse<T_APIRESULT_VALID>> {
 	try {
-		return await axios<T_APIRESULT_REGISTER>({
+		return await axios<T_APIRESULT_VALID>({
 			method: "POST",
 			url: API_ROUTES.REGISTER,
 			data: {
@@ -65,6 +66,23 @@ export async function apiRequestGetTodos(
 	}
 }
 
+export async function apiRequestAddTodo(
+	todo: T_TODO
+): Promise<AxiosResponse<T_APIRESULT_VALID>> {
+	try {
+		return await axios<T_APIRESULT_VALID>({
+			method: "POST",
+			url: API_ROUTES.ADD_TODO,
+			data: {
+				title: todo.title,
+				content: todo.content,
+			},
+		});
+	} catch (err: any) {
+		throw new Error(err);
+	}
+}
+
 // export async function apiRequestValidateSession(
 // 	userDataTokens: T_TOKENS
 // ): Promise<AxiosResponse<T_APIRESULT_VALIDATE_ACCESS_TOKEN>> {
@@ -75,54 +93,6 @@ export async function apiRequestGetTodos(
 // 			url: API_ROUTES.VALIDATE,
 // 			headers: {
 // 				Authorization: `Bearer ${userDataTokens.access_token}`,
-// 			},
-// 		});
-// 	} catch (err: any) {
-// 		throw new Error(err);
-// 	}
-// }
-
-// interface I_APIREQUEST_MAKE_GUESS {
-// 	allCurrentGuessInfo: T_ALL_CURRENT_GUESS_INFO;
-// 	allCategoriesInfo: T_ALL_POSSIBLE_CATEGORIES_INFO;
-// 	accessToken: string;
-// 	gameSession: T_GAME_SESSION;
-// }
-
-// export async function apiRequestMakeGuess(
-// 	paramObject: I_APIREQUEST_MAKE_GUESS
-// ): Promise<AxiosResponse<string, any>> {
-// 	try {
-// 		const guessCategories = createRequestObjectFromCurrentGuessInfo(
-// 			paramObject.allCurrentGuessInfo,
-// 			paramObject.allCategoriesInfo
-// 		);
-// 		return await axios<string>({
-// 			method: "POST",
-// 			url: API_ROUTES.MAKE_GUESS,
-// 			data: <T_APIREQUEST_MAKE_GUESS>{
-// 				game_session_id: paramObject.gameSession.game_session_id,
-// 				current_round: paramObject.gameSession.current_round,
-// 				...guessCategories,
-// 			},
-// 			headers: {
-// 				Authorization: `Bearer ${paramObject.accessToken}`,
-// 			},
-// 		});
-// 	} catch (err: any) {
-// 		throw new Error(err);
-// 	}
-// }
-
-// export async function apiRequestGetPastGuesses(
-// 	accessToken: string
-// ): Promise<AxiosResponse<T_PAST_GUESSES, any>> {
-// 	try {
-// 		return await axios<T_PAST_GUESSES>({
-// 			method: "POST",
-// 			url: API_ROUTES.GET_PAST_GUESSES,
-// 			headers: {
-// 				Authorization: `Bearer ${accessToken}`,
 // 			},
 // 		});
 // 	} catch (err: any) {

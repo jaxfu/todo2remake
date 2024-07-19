@@ -29,7 +29,11 @@ const AllTodos: React.FC = () => {
 		const todos: T_TODO[] = data.data;
 		return (
 			<div className={`${styles.root}`}>
-				{addingTodo ? <NewTodo /> : <AddTodo setAddingTodo={setAddingTodo} />}
+				{addingTodo ? (
+					<NewTodo setAddingTodo={setAddingTodo} />
+				) : (
+					<AddTodo setAddingTodo={setAddingTodo} />
+				)}
 
 				{todos.map((todo) => (
 					<Todo key={todo.id} todo={todo} />

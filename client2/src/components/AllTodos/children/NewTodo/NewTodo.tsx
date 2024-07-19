@@ -1,9 +1,26 @@
 import { useState } from "react";
 import styles from "./NewTodo.module.scss";
 import { T_TODO } from "../../../../types";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiRequestAddTodo } from "../../../../methods/requests";
 
-const NewTodo: React.FC = () => {
+interface IProps {
+	setAddingTodo: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const NewTodo: React.FC<IProps> = (props) => {
 	const [todo, setTodo] = useState<T_TODO>({ id: 0, title: "", content: "" });
+
+	const queryClient = useQueryClient();
+
+	const mutation = useMutation({
+		mutationFn: apiRequestAddTodo,
+		onSuccess: (data) => {
+			console.log(`apiRequestAddTodo: ${data.data.valid}`);
+			props.setAddingTodo(false);
+			queryClient.invalidateQueries({ queryKey: ["todos"] });
+		},
+	});
 
 	function inputHandler(
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -38,9 +55,21 @@ const NewTodo: React.FC = () => {
 					/>
 				</div>
 				<hr />
-				<div className="card-text">
-					<button className="btn btn-info me-3 text-light">Add</button>
-					<button className="btn btn-danger text-light">Cancel</button>
+				<div className="card-text text-center">
+					<button
+						className="btn btn-info me-3 text-light"
+						onClick={() => {
+							mutation.mutate(todo);
+						}}
+					>
+						Add
+					</button>
+					<button
+						className="btn btn-danger text-light"
+						onClick={() => props.setAddingTodo(false)}
+					>
+						Cancel
+					</button>
 				</div>
 			</div>
 		</div>
