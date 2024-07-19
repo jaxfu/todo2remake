@@ -47,8 +47,8 @@ func main() {
 	router.POST(consts.RouteUrlLogin, routes.Login())
 	router.POST(consts.RouteUrlGetTodos, routes.GetTodos())
 	router.POST(consts.RouteUrlAddTodo, routes.AddTodo())
-	router.POST(consts.RouteUrlUpdateTodo, routes.UpdateTodo())
-	router.POST(consts.RouteUrlDeleteTodo, routes.DeleteTodo())
+	router.PUT(consts.RouteUrlUpdateTodo, routes.UpdateTodo())
+	router.DELETE(consts.RouteUrlDeleteTodo, routes.DeleteTodo())
 
 	router.Use(spa.Middleware("/", "client"))
 
