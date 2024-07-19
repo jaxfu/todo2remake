@@ -18,3 +18,21 @@ func GetTodos() gin.HandlerFunc {
 		ctx.JSON(http.StatusOK, testTodos)
 	}
 }
+
+func AddTodo() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		ctx.JSON(http.StatusOK, testTodos)
+	}
+}
+
+func UpdateTodo() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		ctx.JSON(http.StatusOK, testTodos)
+	}
+}
+
+func DeleteTodo() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		ctx.JSON(http.StatusOK, testTodos)
+	}
+}

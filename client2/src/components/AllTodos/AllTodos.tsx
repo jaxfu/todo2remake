@@ -3,8 +3,13 @@ import { apiRequestGetTodos } from "../../methods/requests";
 import { useQuery } from "@tanstack/react-query";
 import type { T_TODO } from "../../types";
 import Todo from "./children/Todo/Todo";
+import AddTodo from "./children/AddTodo/AddTodo";
+import { useState } from "react";
+import NewTodo from "./children/NewTodo/NewTodo";
 
 const AllTodos: React.FC = () => {
+	const [addingTodo, setAddingTodo] = useState<boolean>(false);
+
 	const { isPending, isError, isSuccess, data } = useQuery({
 		queryKey: ["todos"],
 		queryFn: () => apiRequestGetTodos(""),
@@ -24,6 +29,8 @@ const AllTodos: React.FC = () => {
 		const todos: T_TODO[] = data.data;
 		return (
 			<div className={`${styles.root}`}>
+				{addingTodo ? <NewTodo /> : <AddTodo setAddingTodo={setAddingTodo} />}
+
 				{todos.map((todo) => (
 					<Todo key={todo.id} todo={todo} />
 				))}
