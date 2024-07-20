@@ -1,0 +1,10 @@
+.root {
+	width: 60%;
+	background-color: aquamarine;
+}
+
+@media only screen and (max-width: 450px) {
+	.root {
+		width: 80%;
+	}
+}

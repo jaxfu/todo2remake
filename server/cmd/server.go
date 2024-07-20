@@ -29,8 +29,8 @@ func main() {
 	}
 
 	// DB
-	//db := dbHandler.InitDBHandler(os.Getenv("DB_URL"))
-	//defer db.Conn.Close()
+	// db := dbHandler.InitDBHandler(os.Getenv("DB_URL"))
+	// defer db.Conn.Close()
 
 	// ROUTING
 	router := gin.Default()
@@ -38,12 +38,17 @@ func main() {
 		fmt.Println("**DEV MODE DETECTED, ENABLING CORS**")
 		config := cors.DefaultConfig()
 		config.AllowAllOrigins = true
-		config.AllowMethods = []string{"POST", "GET"}
-		//config.AllowHeaders = []string{consts.HeaderTypeAuthorization, "Content-Type"}
+		config.AllowMethods = []string{"POST", "GET", "PUT", "DELETE"}
+		// config.AllowHeaders = []string{consts.HeaderTypeAuthorization, "Content-Type"}
 		router.Use(cors.New(config))
 	}
 
 	router.POST(consts.RouteUrlRegister, routes.Register())
+	router.POST(consts.RouteUrlLogin, routes.Login())
+	router.POST(consts.RouteUrlGetTodos, routes.GetTodos())
+	router.POST(consts.RouteUrlAddTodo, routes.AddTodo())
+	router.PUT(consts.RouteUrlUpdateTodo, routes.UpdateTodo())
+	router.DELETE(consts.RouteUrlDeleteTodo, routes.DeleteTodo())
 
 	router.Use(spa.Middleware("/", "client"))
 

@@ -1,0 +1,10 @@
+.root {
+	text-align: center;
+	width: 30%;
+	background: aquamarine;
+
+	& > :hover {
+		cursor: pointer;
+		background: rgb(206, 229, 229);
+	}
+}
