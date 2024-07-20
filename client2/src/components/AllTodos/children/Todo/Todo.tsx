@@ -91,7 +91,12 @@ const Todo: React.FC<IProps> = (props) => {
 				{editMode ? (
 					<div className="card-text">
 						<button className="btn btn-info me-3 text-light">Submit</button>
-						<button className="btn btn-secondary text-light">Cancel</button>
+						<button
+							className="btn btn-secondary text-light"
+							onClick={() => setEditMode(false)}
+						>
+							Cancel
+						</button>
 					</div>
 				) : (
 					<div className="card-text">

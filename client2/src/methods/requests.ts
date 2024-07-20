@@ -15,6 +15,7 @@ const API_ROUTES = {
 	GET_TODOS: ROUTE_PREFIX + "/api/getTodos",
 	ADD_TODO: ROUTE_PREFIX + "/api/addTodo",
 	DELETE_TODO: ROUTE_PREFIX + "/api/deleteTodo",
+	UPDATE_TODO: ROUTE_PREFIX + "/api/updateTodo",
 };
 
 export async function apiRequestLogin(
@@ -92,6 +93,22 @@ export async function apiRequestDeleteTodo(
 			url: API_ROUTES.DELETE_TODO,
 			data: {
 				id,
+			},
+		});
+	} catch (err: any) {
+		throw new Error(err);
+	}
+}
+
+export async function apiRequestUpdateTodo(
+	todo: T_TODO
+): Promise<AxiosResponse<T_APIRESULT_VALID>> {
+	try {
+		return await axios<T_APIRESULT_VALID>({
+			method: "PUT",
+			url: API_ROUTES.UPDATE_TODO,
+			data: {
+				todo,
 			},
 		});
 	} catch (err: any) {

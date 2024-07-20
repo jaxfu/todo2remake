@@ -48,7 +48,29 @@ func AddTodo() gin.HandlerFunc {
 
 func UpdateTodo() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		ctx.JSON(http.StatusOK, testTodos)
+		var payload types.Todo
+		response := ResponseValid{
+			Valid: false,
+		}
+
+		if err := ctx.BindJSON(&payload); err != nil {
+			fmt.Printf("Error binding payload: %+v\n", err)
+			ctx.JSON(http.StatusInternalServerError, response)
+			return
+		}
+		fmt.Printf("Login Payload: %+v\n", payload)
+
+		updateTodo(testTodos, payload)
+		response.Valid = true
+		ctx.JSON(http.StatusOK, response)
+	}
+}
+
+func updateTodo(todos []types.Todo, todo types.Todo) {
+	for i := range todos {
+		if todos[i].ID == todo.ID {
+			todos[i] = todo
+		}
 	}
 }
 
