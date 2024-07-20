@@ -1,5 +1,7 @@
 import { useState } from "react";
 import type { T_TODO } from "../../../../types";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { apiRequestDeleteTodo } from "../../../../methods/requests";
 
 interface IProps {
 	todo: T_TODO;
@@ -9,6 +11,15 @@ const Todo: React.FC<IProps> = (props) => {
 	const [editMode, setEditMode] = useState(false);
 	const [title, setTitle] = useState(props.todo.title);
 	const [content, setContent] = useState(props.todo.content);
+
+	const queryClient = useQueryClient();
+	const mutation = useMutation({
+		mutationFn: apiRequestDeleteTodo,
+		onSuccess: (data) => {
+			console.log(`apiRequestDeleteTodo: ${data.data.valid}`);
+			queryClient.invalidateQueries({ queryKey: ["todos"] });
+		},
+	});
 
 	const titleChangeHandler = (e: any) => {
 		setTitle(e.target.value);
@@ -49,20 +60,6 @@ const Todo: React.FC<IProps> = (props) => {
 	// 	}
 	// };
 
-	const toggleEdit = () => {
-		if (editMode === true) {
-			const sendData = {
-				id: props.todo.id,
-				title,
-				text: content,
-			};
-
-			//sendPut(sendData);
-		}
-
-		setEditMode(editMode ? false : true);
-	};
-
 	return (
 		<div className="card m-3 todo">
 			<div className="card-body">
@@ -91,14 +88,27 @@ const Todo: React.FC<IProps> = (props) => {
 					)}
 				</div>
 				<hr />
-				<div className="card-text">
-					<button className="btn btn-info me-3 text-light">
-						{editMode ? "Submit" : "Edit"}
-					</button>
-					<button className="btn btn-secondary text-light">
-						{editMode ? "Cancel" : "Delete"}
-					</button>
-				</div>
+				{editMode ? (
+					<div className="card-text">
+						<button className="btn btn-info me-3 text-light">Submit</button>
+						<button className="btn btn-secondary text-light">Cancel</button>
+					</div>
+				) : (
+					<div className="card-text">
+						<button
+							className="btn btn-info me-3 text-light"
+							onClick={() => setEditMode(true)}
+						>
+							Edit
+						</button>
+						<button
+							className="btn btn-secondary text-light"
+							onClick={() => mutation.mutate(props.todo.id)}
+						>
+							Delete
+						</button>
+					</div>
+				)}
 			</div>
 		</div>
 	);

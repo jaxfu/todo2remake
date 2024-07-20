@@ -14,6 +14,7 @@ const API_ROUTES = {
 	VALIDATE: ROUTE_PREFIX + "/api/validateSession",
 	GET_TODOS: ROUTE_PREFIX + "/api/getTodos",
 	ADD_TODO: ROUTE_PREFIX + "/api/addTodo",
+	DELETE_TODO: ROUTE_PREFIX + "/api/deleteTodo",
 };
 
 export async function apiRequestLogin(
@@ -75,6 +76,22 @@ export async function apiRequestAddTodo(
 			data: {
 				title: todo.title,
 				content: todo.content,
+			},
+		});
+	} catch (err: any) {
+		throw new Error(err);
+	}
+}
+
+export async function apiRequestDeleteTodo(
+	id: number
+): Promise<AxiosResponse<T_APIRESULT_VALID>> {
+	try {
+		return await axios<T_APIRESULT_VALID>({
+			method: "DELETE",
+			url: API_ROUTES.DELETE_TODO,
+			data: {
+				id,
 			},
 		});
 	} catch (err: any) {
