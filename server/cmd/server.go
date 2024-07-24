@@ -16,7 +16,7 @@ import (
 )
 
 func main() {
-	// ENV CONFIG
+	// get needed environment vars, else fail and exit
 	if os.Getenv("MODE") != "PROD" {
 		if err := godotenv.Load(".env"); err != nil {
 			fmt.Printf("%+v\n", err)
@@ -35,6 +35,7 @@ func main() {
 
 	// ROUTING
 	router := gin.Default()
+	// enable CORS to make requests from localhost (DEV ONLY)
 	if os.Getenv("MODE") == "DEV" {
 		fmt.Println("**DEV MODE DETECTED, ENABLING CORS**")
 		config := cors.DefaultConfig()
@@ -44,6 +45,7 @@ func main() {
 		router.Use(cors.New(config))
 	}
 
+	// register routes
 	router.POST(consts.RouteUrlRegister, routes.Register())
 	router.POST(consts.RouteUrlLogin, routes.Login())
 	router.POST(consts.RouteUrlGetTodos, todos.GetTodos())
