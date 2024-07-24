@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"furrj/todo_2_remake/internal/routing/consts"
 	"furrj/todo_2_remake/internal/routing/routes"
+	"furrj/todo_2_remake/internal/routing/routes/todos"
 	"log"
 	"os"
 
@@ -45,10 +46,10 @@ func main() {
 
 	router.POST(consts.RouteUrlRegister, routes.Register())
 	router.POST(consts.RouteUrlLogin, routes.Login())
-	router.POST(consts.RouteUrlGetTodos, routes.GetTodos())
-	router.POST(consts.RouteUrlAddTodo, routes.AddTodo())
-	router.PUT(consts.RouteUrlUpdateTodo, routes.UpdateTodo())
-	router.DELETE(consts.RouteUrlDeleteTodo, routes.DeleteTodo())
+	router.POST(consts.RouteUrlGetTodos, todos.GetTodos())
+	router.POST(consts.RouteUrlAddTodo, todos.AddTodo())
+	router.PUT(consts.RouteUrlUpdateTodo, todos.UpdateTodo())
+	router.DELETE(consts.RouteUrlDeleteTodo, todos.DeleteTodo())
 
 	router.Use(spa.Middleware("/", "client"))
 
