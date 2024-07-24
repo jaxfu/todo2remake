@@ -2,7 +2,6 @@ package todos
 
 import (
 	"fmt"
-	"furrj/todo_2_remake/internal/routing/routes"
 	"furrj/todo_2_remake/internal/types"
 	"net/http"
 
@@ -16,7 +15,7 @@ type deletePayload struct {
 func DeleteTodo() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var payload deletePayload
-		response := routes.ResponseValid{
+		response := types.ResponseValid{
 			Valid: false,
 		}
 

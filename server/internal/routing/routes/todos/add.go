@@ -2,17 +2,22 @@ package todos
 
 import (
 	"fmt"
-	"furrj/todo_2_remake/internal/routing/routes"
 	"furrj/todo_2_remake/internal/types"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
+type requestAddTodo struct {
+	Title   string `json:"title"`
+	Content string `json:"content"`
+}
+
 func AddTodo() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		var payload types.Todo
-		response := routes.ResponseValid{
+		var payload requestAddTodo
+		var newTodo types.Todo
+		response := types.ResponseValid{
 			Valid: false,
 		}
 
@@ -23,10 +28,12 @@ func AddTodo() gin.HandlerFunc {
 		}
 		fmt.Printf("Login Payload: %+v\n", payload)
 
-		payload.ID = uint(len(TestTodos) + 1)
-		TestTodos = append(TestTodos, payload)
-		response.Valid = true
+		newTodo.Title = payload.Title
+		newTodo.Content = payload.Content
+		newTodo.ID = uint(len(TestTodos) + 1)
+		TestTodos = append(TestTodos, newTodo)
 
+		response.Valid = true
 		ctx.JSON(http.StatusOK, response)
 	}
 }

@@ -2,7 +2,6 @@ package todos
 
 import (
 	"fmt"
-	"furrj/todo_2_remake/internal/routing/routes"
 	"furrj/todo_2_remake/internal/types"
 	"net/http"
 
@@ -12,7 +11,7 @@ import (
 func UpdateTodo() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var payload types.Todo
-		response := routes.ResponseValid{
+		response := types.ResponseValid{
 			Valid: false,
 		}
 
