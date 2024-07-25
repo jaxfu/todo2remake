@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"furrj/todo_2_remake/internal/routing/consts"
+	"furrj/todo_2_remake/internal/routing/consts/routeURL"
 	"furrj/todo_2_remake/internal/routing/routes"
+	"furrj/todo_2_remake/internal/routing/routes/todos"
 	"log"
 	"os"
 
@@ -15,7 +16,7 @@ import (
 )
 
 func main() {
-	// ENV CONFIG
+	// get needed environment vars, else fail and exit
 	if os.Getenv("MODE") != "PROD" {
 		if err := godotenv.Load(".env"); err != nil {
 			fmt.Printf("%+v\n", err)
@@ -34,6 +35,7 @@ func main() {
 
 	// ROUTING
 	router := gin.Default()
+	// enable CORS to make requests from localhost (DEV ONLY)
 	if os.Getenv("MODE") == "DEV" {
 		fmt.Println("**DEV MODE DETECTED, ENABLING CORS**")
 		config := cors.DefaultConfig()
@@ -43,12 +45,13 @@ func main() {
 		router.Use(cors.New(config))
 	}
 
-	router.POST(consts.RouteUrlRegister, routes.Register())
-	router.POST(consts.RouteUrlLogin, routes.Login())
-	router.POST(consts.RouteUrlGetTodos, routes.GetTodos())
-	router.POST(consts.RouteUrlAddTodo, routes.AddTodo())
-	router.PUT(consts.RouteUrlUpdateTodo, routes.UpdateTodo())
-	router.DELETE(consts.RouteUrlDeleteTodo, routes.DeleteTodo())
+	// register routes
+	router.POST(routeURL.Register, routes.Register())
+	router.POST(routeURL.Login, routes.Login())
+	router.POST(routeURL.GetTodos, todos.GetTodos())
+	router.POST(routeURL.AddTodo, todos.AddTodo())
+	router.PUT(routeURL.UpdateTodo, todos.UpdateTodo())
+	router.DELETE(routeURL.DeleteTodo, todos.DeleteTodo())
 
 	router.Use(spa.Middleware("/", "client"))
 
