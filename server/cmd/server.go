@@ -53,7 +53,9 @@ func main() {
 	router.PUT(routeURL.UpdateTodo, todos.UpdateTodo())
 	router.DELETE(routeURL.DeleteTodo, todos.DeleteTodo())
 
+	// server react bundle
 	router.Use(spa.Middleware("/", "client"))
 
+	// listen on port
 	log.Panic(router.Run(PORT))
 }

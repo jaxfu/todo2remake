@@ -16,14 +16,20 @@ var TestTodos = []types.Todo{
 	{ID: 4, Title: "test4", Content: "test4"},
 }
 
+// GetTodos quicksorts todos by id and returns all todos
+// TODO: accept username and get specific user's todos
 func GetTodos() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
+		// call quicksortTodosByID to sort todos
 		TestTodos = quickSortTodosByID(TestTodos)
 		fmt.Printf("%+v\n", TestTodos)
+
+		// send response
 		ctx.JSON(http.StatusOK, TestTodos)
 	}
 }
 
+// quickSortTodosByID quick sorts slice of todos by id in place
 func quickSortTodosByID(todos []types.Todo) []types.Todo {
 	if todos == nil || len(todos) <= 1 {
 		return todos
@@ -33,6 +39,7 @@ func quickSortTodosByID(todos []types.Todo) []types.Todo {
 	return todos
 }
 
+// quicksort recursively quicksorts slice of todos in place
 func quicksort(todos []types.Todo, low, high int) {
 	if low < high {
 		p := partition(todos, low, high)
@@ -41,6 +48,7 @@ func quicksort(todos []types.Todo, low, high int) {
 	}
 }
 
+// partition partitions slice of todos in place
 func partition(todos []types.Todo, low, high int) int {
 	pivot := todos[high].ID
 	i := low - 1
