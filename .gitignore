@@ -2,3 +2,5 @@
 .idea
 *.exe
 server/client
+*.sh
+.env
