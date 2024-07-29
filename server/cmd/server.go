@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"furrj/todo_2_remake/internal/config"
+	"furrj/todo_2_remake/internal/dbHandler"
 	"furrj/todo_2_remake/internal/routing/consts/routeURL"
 	"furrj/todo_2_remake/internal/routing/routes"
 	"furrj/todo_2_remake/internal/routing/routes/todos"
@@ -16,22 +17,26 @@ import (
 )
 
 func main() {
+	// get environment variables, else exit
 	envVars, err := config.GetEnv(".env")
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "error getting environment vars: %+v\n", err)
 		os.Exit(1)
 	}
 
-	fmt.Printf("%+v\n", envVars)
-
-	// DB
-	// db := dbHandler.InitDBHandler(os.Getenv("DB_URL"))
-	// defer db.Conn.Close()
+	// init DB connection, else exit
+	db, err := dbHandler.InitDBHandler(envVars.DB_URL)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "error initializing db connection: %+v\n", err)
+		os.Exit(1)
+	}
+	defer db.Conn.Close()
 
 	// ROUTING
 	router := gin.Default()
+
 	// enable CORS to make requests from localhost (DEV ONLY)
-	if os.Getenv("MODE") == "DEV" {
+	if os.Getenv(config.MODE) == "DEV" {
 		fmt.Println("**DEV MODE DETECTED, ENABLING CORS**")
 		config := cors.DefaultConfig()
 		config.AllowAllOrigins = true
