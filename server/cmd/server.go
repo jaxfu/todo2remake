@@ -47,7 +47,7 @@ func main() {
 
 	// register routes
 	router.POST(routeURL.Register, routes.Register())
-	router.POST(routeURL.Login, routes.Login())
+	router.POST(routeURL.Login, routes.Login(db))
 	router.POST(routeURL.GetTodos, todos.GetTodos())
 	router.POST(routeURL.AddTodo, todos.AddTodo())
 	router.PUT(routeURL.UpdateTodo, todos.UpdateTodo())

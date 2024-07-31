@@ -48,7 +48,7 @@ const QGetUserDataByUsername = `
 
 func (dbHandler *DBHandler) GetUserDataByUsername(username string) (types.UserData, error) {
 	var UserData types.UserData
-	err := dbHandler.Conn.QueryRow(context.Background(), QGetUserDataByUserID, username).Scan(
+	err := dbHandler.Conn.QueryRow(context.Background(), QGetUserDataByUsername, username).Scan(
 		&UserData.UserID,
 		&UserData.Username,
 		&UserData.Password,
@@ -64,11 +64,12 @@ func (dbHandler *DBHandler) GetUserDataByUsername(username string) (types.UserDa
 const EInsertUser = `
 	INSERT INTO users (username, password)
 	VALUES ($1, $2)
+	RETURNING user_id
 `
 
 func (dbHandler *DBHandler) InsertUser(username, password string) (types.UserID, error) {
 	var userID types.UserID
-	_, err := dbHandler.Conn.Exec(context.Background(), EInsertUser, username, password)
+	err := dbHandler.Conn.QueryRow(context.Background(), EInsertUser, username, password).Scan(&userID)
 	if err != nil {
 		return userID, err
 	}
