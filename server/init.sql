@@ -26,4 +26,7 @@ VALUES ('username', 'password');
 INSERT INTO todos (user_id, todo_id, title, content)
 VALUES (1, 1, 'title', 'content');
 
+INSERT INTO todos (user_id, todo_id, title, content)
+VALUES (1, 2, 'title2', 'content2');
+
 COMMIT;
