@@ -6,7 +6,6 @@ type RequestLogin struct {
 }
 
 type RequestRegister struct {
-	Username       string `json:"username"`
-	FirstPassword  string `json:"first_password"`
-	SecondPassword string `json:"second_password"`
+	Username string `json:"username"`
+	Password string `json:"password"`
 }

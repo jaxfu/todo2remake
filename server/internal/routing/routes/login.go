@@ -21,31 +21,27 @@ func Login(db *dbHandler.DBHandler) gin.HandlerFunc {
 			ctx.JSON(http.StatusInternalServerError, response)
 			return
 		}
-		fmt.Printf("Login Payload: %+v\n", payload)
+		fmt.Printf("Register Payload: %+v\n", payload)
 
 		// get user data from db
 		userData, err := db.GetUserDataByUsername(payload.Username)
-		if err != nil && err != pgx.ErrNoRows {
+		if err != nil {
+			if err == pgx.ErrNoRows {
+				fmt.Printf("username %s not found\n", payload.Username)
+				ctx.JSON(http.StatusUnauthorized, response)
+				return
+			}
 			fmt.Printf("error getting user data: %v\n", err)
 			ctx.JSON(http.StatusInternalServerError, response)
 			return
 		}
 
-		// if username exists
-		if userData.UserID != 0 {
-			fmt.Printf("username %s already exists", payload.Username)
-			ctx.JSON(http.StatusOK, response)
+		// if password incorrect
+		if payload.Password != userData.Password {
+			fmt.Printf("password incorrect")
+			ctx.JSON(http.StatusUnauthorized, response)
 			return
 		}
-
-		// insert new user
-		userID, err := db.InsertUser(payload.Username, payload.Password)
-		if err != nil {
-			fmt.Printf("error inserting user: %v\n", err)
-			ctx.JSON(http.StatusInternalServerError, response)
-			return
-		}
-		fmt.Printf("inserted user: %d\n", userID)
 
 		ctx.JSON(http.StatusOK, types.ResponseValid{Valid: true})
 	}
