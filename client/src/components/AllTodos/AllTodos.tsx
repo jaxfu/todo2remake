@@ -6,41 +6,51 @@ import Todo from "./children/Todo/Todo";
 import AddTodo from "./children/AddTodo/AddTodo";
 import { useState } from "react";
 import NewTodo from "./children/NewTodo/NewTodo";
+import { useNavigate } from "react-router-dom";
 
-const AllTodos: React.FC = () => {
-	const [addingTodo, setAddingTodo] = useState<boolean>(false);
+interface IProps {
+  username: string;
+}
 
-	const { isPending, isError, isSuccess, data } = useQuery({
-		queryKey: ["todos"],
-		queryFn: () => apiRequestGetTodos(""),
-	});
+const AllTodos: React.FC<IProps> = (props) => {
+  if (props.username === "") {
+    const navigate = useNavigate();
+    navigate("/login");
+  }
 
-	if (isError) {
-		console.log("Error");
-		return <h2>Error...</h2>;
-	}
-	if (isPending) {
-		return <h2>Loading...</h2>;
-	}
+  const [addingTodo, setAddingTodo] = useState<boolean>(false);
 
-	if (isSuccess) {
-		console.log(`${JSON.stringify(data.data)}`);
+  const { isPending, isError, isSuccess, data } = useQuery({
+    queryKey: ["todos"],
+    queryFn: () => apiRequestGetTodos(""),
+  });
 
-		const todos: T_TODO[] = data.data;
-		return (
-			<div className={`${styles.root}`}>
-				{addingTodo ? (
-					<NewTodo setAddingTodo={setAddingTodo} />
-				) : (
-					<AddTodo setAddingTodo={setAddingTodo} />
-				)}
+  if (isError) {
+    console.log("Error");
+    return <h2>Error...</h2>;
+  }
+  if (isPending) {
+    return <h2>Loading...</h2>;
+  }
 
-				{todos.map((todo) => (
-					<Todo key={todo.id} todo={todo} />
-				))}
-			</div>
-		);
-	}
+  if (isSuccess) {
+    console.log(`${JSON.stringify(data.data)}`);
+
+    const todos: T_TODO[] = data.data;
+    return (
+      <div className={`${styles.root}`}>
+        {addingTodo ? (
+          <NewTodo setAddingTodo={setAddingTodo} />
+        ) : (
+          <AddTodo setAddingTodo={setAddingTodo} />
+        )}
+
+        {todos.map((todo) => (
+          <Todo key={todo.id} todo={todo} />
+        ))}
+      </div>
+    );
+  }
 };
 
 // const AllTodos = () => {

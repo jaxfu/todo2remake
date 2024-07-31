@@ -2,9 +2,13 @@ import styles from "./Login.module.scss";
 import { useState } from "react";
 import { type T_APIRESULT_VALID, type T_FORMINFO_LOGIN } from "../../types";
 import { apiRequestLogin } from "../../methods/requests";
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse, HttpStatusCode } from "axios";
 
-const Login = () => {
+interface IProps {
+  setUsername: React.Dispatch<React.SetStateAction<string>>
+}
+
+const Login: React.FC<IProps> = (props) => {
   const [userFormInfo, setUserFormInfo] = useState<T_FORMINFO_LOGIN>({
     username: "",
     password: "",
@@ -20,10 +24,15 @@ const Login = () => {
   }
 
   async function login(): Promise<void> {
-    const res: AxiosResponse<T_APIRESULT_VALID> = await apiRequestLogin(
-      userFormInfo
-    );
-    console.log(`login valid: ${res.data.valid}`);
+    try {
+      const res: AxiosResponse<T_APIRESULT_VALID> = await apiRequestLogin(
+        userFormInfo
+      );
+      console.log(`login valid: ${res.data.valid}`);
+      console.log(res.status);
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   return (

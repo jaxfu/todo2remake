@@ -19,9 +19,9 @@ const App: React.FC = () => {
         <BrowserRouter>
           <Navbar />
           <Routes>
-            <Route path="/" element={<AllTodos />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/" element={<AllTodos username={username} />} />
+            <Route path="/login" element={<Login setUsername={setUsername} />} />
+            <Route path="/register" element={<Register setUsername={setUsername} />} />
             {/* <Route path="/about" element={<AboutMe />} />
 					<Route path="/contact" element={<ContactInfo />} />
 					<Route path="*" element={<ErrorPage />} /> */}

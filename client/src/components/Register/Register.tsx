@@ -4,7 +4,11 @@ import { type T_APIRESULT_VALID, type T_FORMINFO_REGISTER } from "../../types";
 import { apiRequestRegister } from "../../methods/requests";
 import { AxiosResponse } from "axios";
 
-const Register = () => {
+interface IProps {
+  setUsername: React.Dispatch<React.SetStateAction<string>>
+}
+
+const Register: React.FC<IProps> = (props) => {
   const [userFormInfo, setUserFormInfo] = useState<T_FORMINFO_REGISTER>({
     username: "",
     firstPassword: "",
