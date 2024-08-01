@@ -39,3 +39,18 @@ func (dbHandler *DBHandler) GetTodosByUserID(userID types.UserID) ([]types.Todo,
 
 	return todos, nil
 }
+
+// INSERTS
+
+const EInsertTodoByUserID = `
+	INSERT INTO todos (user_id, title, content)
+	VALUES ($1, $2, $3)
+`
+
+func (dbHandler *DBHandler) InsertTodoByUserID(userID types.UserID, todo types.Todo) error {
+	_, err := dbHandler.Conn.Exec(context.Background(), EInsertTodoByUserID, userID, todo.Title, todo.Content)
+	if err != nil {
+		return err
+	}
+	return nil
+}
