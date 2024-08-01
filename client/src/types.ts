@@ -27,3 +27,6 @@ export type T_USER_DATA = {
   username: string;
   user_id: number;
 }
+
+export type T_APIREQUEST_ADD_TODO = T_TODO &
+{ user_id: number }

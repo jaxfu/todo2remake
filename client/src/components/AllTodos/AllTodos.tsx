@@ -43,7 +43,7 @@ const AllTodos: React.FC<IProps> = (props) => {
     return (
       <div className={`${styles.root}`}>
         {addingTodo ? (
-          <NewTodo setAddingTodo={setAddingTodo} />
+          <NewTodo setAddingTodo={setAddingTodo} userID={props.userData.user_id} />
         ) : (
           <AddTodo setAddingTodo={setAddingTodo} />
         )}

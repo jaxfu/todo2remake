@@ -5,6 +5,7 @@ import {
   type T_FORMINFO_LOGIN,
   type T_TODO,
   type T_APIRESULT_LOGIN,
+  type T_APIREQUEST_ADD_TODO,
 } from "../types";
 
 // Routes
@@ -65,15 +66,15 @@ export async function apiRequestGetTodos(
 }
 
 export async function apiRequestAddTodo(
-  todo: T_TODO
+  info: T_APIREQUEST_ADD_TODO
 ): Promise<AxiosResponse<T_APIRESULT_VALID>> {
+  console.log(info);
   try {
     return await axios<T_APIRESULT_VALID>({
       method: "POST",
       url: API_ROUTES.ADD_TODO,
       data: {
-        title: todo.title,
-        content: todo.content,
+        ...info
       },
     });
   } catch (err: any) {
@@ -111,20 +112,3 @@ export async function apiRequestUpdateTodo(
     throw new Error(err);
   }
 }
-
-// export async function apiRequestValidateSession(
-// 	userDataTokens: T_TOKENS
-// ): Promise<AxiosResponse<T_APIRESULT_VALIDATE_ACCESS_TOKEN>> {
-// 	console.log("Running apiRequestValidateSession");
-// 	try {
-// 		return await axios<T_APIRESULT_VALIDATE_ACCESS_TOKEN>({
-// 			method: "POST",
-// 			url: API_ROUTES.VALIDATE,
-// 			headers: {
-// 				Authorization: `Bearer ${userDataTokens.access_token}`,
-// 			},
-// 		});
-// 	} catch (err: any) {
-// 		throw new Error(err);
-// 	}
-// }
