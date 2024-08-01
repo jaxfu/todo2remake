@@ -1,46 +1,61 @@
 import styles from "./AllTodos.module.scss";
 import { apiRequestGetTodos } from "../../methods/requests";
 import { useQuery } from "@tanstack/react-query";
-import type { T_TODO } from "../../types";
+import type { T_TODO, T_USER_DATA } from "../../types";
 import Todo from "./children/Todo/Todo";
 import AddTodo from "./children/AddTodo/AddTodo";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import NewTodo from "./children/NewTodo/NewTodo";
+import { useNavigate } from "react-router-dom";
 
-const AllTodos: React.FC = () => {
-	const [addingTodo, setAddingTodo] = useState<boolean>(false);
+interface IProps {
+  userData: T_USER_DATA;
+}
 
-	const { isPending, isError, isSuccess, data } = useQuery({
-		queryKey: ["todos"],
-		queryFn: () => apiRequestGetTodos(""),
-	});
+const AllTodos: React.FC<IProps> = (props) => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (props.userData.user_id === -1) {
+      navigate("/login");
+    }
+  }, [])
 
-	if (isError) {
-		console.log("Error");
-		return <h2>Error...</h2>;
-	}
-	if (isPending) {
-		return <h2>Loading...</h2>;
-	}
 
-	if (isSuccess) {
-		console.log(`${JSON.stringify(data.data)}`);
+  const [addingTodo, setAddingTodo] = useState<boolean>(false);
 
-		const todos: T_TODO[] = data.data;
-		return (
-			<div className={`${styles.root}`}>
-				{addingTodo ? (
-					<NewTodo setAddingTodo={setAddingTodo} />
-				) : (
-					<AddTodo setAddingTodo={setAddingTodo} />
-				)}
+  const { isPending, isError, isSuccess, data } = useQuery({
+    queryKey: ["todos"],
+    queryFn: () => apiRequestGetTodos(props.userData.user_id),
+  });
 
-				{todos.map((todo) => (
-					<Todo key={todo.id} todo={todo} />
-				))}
-			</div>
-		);
-	}
+  if (isError) {
+    console.log("Error");
+    return <h2>Error...</h2>;
+  }
+  if (isPending) {
+    return <h2>Loading...</h2>;
+  }
+
+  if (isSuccess) {
+    console.log(`${JSON.stringify(data.data)}`);
+
+    const todos: T_TODO[] = data.data;
+    return (
+      <div className={`${styles.root}`}>
+        {addingTodo ? (
+          <NewTodo setAddingTodo={setAddingTodo} />
+        ) : (
+          <AddTodo setAddingTodo={setAddingTodo} />
+        )}
+
+        {todos.length > 0 && todos.map((todo) => (
+          <Todo key={todo.id} todo={todo} />
+        ))}
+      </div>
+    );
+  }
+
+
 };
 
 // const AllTodos = () => {
@@ -83,18 +98,18 @@ const AllTodos: React.FC = () => {
 // 		rerender ? setRerender(false) : setRerender(true);
 // 	};
 
-// 	return (
-// 		<div>
-// 			<div className="allTodosCont mt-3">
-// 				{addingTodo ? (
-// 					<NewTodo onSubmit={afterNewSubmit} />
-// 				) : (
-// 					<AddTodo onClick={addTodoMode} />
-// 				)}
-// 				{todos && <Listings data={todos} afterDelete={afterDelete} />}
-// 			</div>
-// 		</div>
-// 	);
-// };
+// return (
+//   <div>
+//     <div className="allTodosCont mt-3">
+//       {addingTodo ? (
+//         <NewTodo onSubmit={afterNewSubmit} />
+//       ) : (
+//         <AddTodo onClick={addTodoMode} />
+//       )}
+//       {todos && <Listings data={todos} afterDelete={afterDelete} />}
+//     </div>
+//   </div>
+// );
+//  };
 
 export default AllTodos;

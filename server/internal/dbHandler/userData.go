@@ -7,7 +7,9 @@ import (
 
 // Gets
 const QGetUserIDByUsername = `
-	SELECT user_id FROM users.data WHERE username=$1
+	SELECT user_id
+	FROM users
+	WHERE username=$1
 `
 
 func (dbHandler *DBHandler) GetUserIDByUsername(username string) (types.UserID, error) {
@@ -20,8 +22,8 @@ func (dbHandler *DBHandler) GetUserIDByUsername(username string) (types.UserID, 
 }
 
 const QGetUserDataByUserID = `
-	SELECT user_id, username, password, first_name, last_name
-	FROM users.data
+	SELECT user_id, username, password
+	FROM users
 	WHERE user_id=$1
 `
 
@@ -38,35 +40,38 @@ func (dbHandler *DBHandler) GetUserDataByUserID(UserID types.UserID) (types.User
 	return UserData, nil
 }
 
+const QGetUserDataByUsername = `
+	SELECT user_id, username, password
+	FROM users
+	WHERE username=$1
+`
+
+func (dbHandler *DBHandler) GetUserDataByUsername(username string) (types.UserData, error) {
+	var UserData types.UserData
+	err := dbHandler.Conn.QueryRow(context.Background(), QGetUserDataByUsername, username).Scan(
+		&UserData.UserID,
+		&UserData.Username,
+		&UserData.Password,
+	)
+	if err != nil {
+		return UserData, err
+	}
+	return UserData, nil
+}
+
 // Inserts
 
 const EInsertUser = `
-	INSERT INTO users.ids DEFAULT VALUES
+	INSERT INTO users (username, password)
+	VALUES ($1, $2)
 	RETURNING user_id
 `
 
-func (dbHandler *DBHandler) InsertUser() (types.UserID, error) {
+func (dbHandler *DBHandler) InsertUser(username, password string) (types.UserID, error) {
 	var userID types.UserID
-	err := dbHandler.Conn.QueryRow(context.Background(), EInsertUser).Scan(&userID)
+	err := dbHandler.Conn.QueryRow(context.Background(), EInsertUser, username, password).Scan(&userID)
 	if err != nil {
 		return userID, err
 	}
 	return userID, nil
-}
-
-const EInsertUserData = `
-	INSERT INTO users.data (user_id, username, password, first_name, last_name)
-	VALUES ($1, $2, $3, $4, $5)
-`
-
-func (dbHandler *DBHandler) InsertUserData(userData types.UserData) error {
-	_, err := dbHandler.Conn.Exec(context.Background(), EInsertUserData,
-		userData.UserID,
-		userData.Username,
-		userData.Password,
-	)
-	if err != nil {
-		return err
-	}
-	return nil
 }

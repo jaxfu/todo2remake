@@ -2,6 +2,7 @@ package todos
 
 import (
 	"fmt"
+	"furrj/todo_2_remake/internal/dbHandler"
 	"furrj/todo_2_remake/internal/types"
 	"net/http"
 
@@ -18,14 +19,33 @@ var TestTodos = []types.Todo{
 
 // GetTodos quicksorts todos by id and returns all todos
 // TODO: accept username and get specific user's todos
-func GetTodos() gin.HandlerFunc {
+func GetTodos(db *dbHandler.DBHandler) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
+		var payload types.RequestGetTodo
+		var response []types.Todo
+
+		// bind payload
+		if err := ctx.ShouldBindJSON(&payload); err != nil {
+			fmt.Printf("error binding payload: %v\n", err)
+			ctx.JSON(http.StatusBadRequest, response)
+			return
+		}
+		fmt.Printf("payload: %+v\n", payload)
+
+		// get todos from db
+		todos, err := db.GetTodosByUserID(payload.UserID)
+		if err != nil {
+			fmt.Printf("error getting todos: %v", err)
+			ctx.JSON(http.StatusInternalServerError, response)
+			return
+		}
+
 		// call quicksortTodosByID to sort todos
-		TestTodos = quickSortTodosByID(TestTodos)
-		fmt.Printf("%+v\n", TestTodos)
+		TestTodos = quickSortTodosByID(todos)
+		fmt.Printf("%+v\n", todos)
 
 		// send response
-		ctx.JSON(http.StatusOK, TestTodos)
+		ctx.JSON(http.StatusOK, todos)
 	}
 }
 
