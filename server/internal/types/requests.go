@@ -24,3 +24,8 @@ type RequestUpdateTodo struct {
 	Todo
 	UserID UserID `json:"user_id"`
 }
+
+type RequestDeleteTodo struct {
+	TodoID uint   `json:"todo_id"`
+	UserID UserID `json:"user_id"`
+}
