@@ -17,6 +17,8 @@ export type T_APIRESULT_LOGIN = {
   user_id: number;
 };
 
+export type T_APIRESULT_REGISTER = T_APIRESULT_LOGIN
+
 export type T_TODO = {
   todo_id: number;
   title: string;

@@ -8,6 +8,7 @@ import {
   type T_APIREQUEST_ADD_TODO,
   type T_APIREQUEST_UPDATE_TODO,
   type T_APIREQUEST_DELETE_TODO,
+  type T_APIRESULT_REGISTER,
 } from "../types";
 
 // Routes
@@ -36,19 +37,15 @@ export async function apiRequestLogin(
 
 export async function apiRequestRegister(
   formInfo: T_FORMINFO_REGISTER
-): Promise<AxiosResponse<T_APIRESULT_VALID>> {
-  try {
-    return await axios<T_APIRESULT_VALID>({
-      method: "POST",
-      url: API_ROUTES.REGISTER,
-      data: {
-        username: formInfo.username,
-        password: formInfo.firstPassword,
-      },
-    });
-  } catch (err: any) {
-    throw err
-  }
+): Promise<AxiosResponse<T_APIRESULT_REGISTER>> {
+  return await axios<T_APIRESULT_REGISTER>({
+    method: "POST",
+    url: API_ROUTES.REGISTER,
+    data: {
+      username: formInfo.username,
+      password: formInfo.firstPassword,
+    },
+  });
 }
 
 export async function apiRequestGetTodos(
