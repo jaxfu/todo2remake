@@ -1,11 +1,11 @@
 import styles from "./Register.module.scss";
 import { useState } from "react";
-import { type T_APIRESULT_VALID, type T_FORMINFO_REGISTER } from "../../types";
+import { T_USER_DATA, type T_APIRESULT_VALID, type T_FORMINFO_REGISTER } from "../../types";
 import { apiRequestRegister } from "../../methods/requests";
 import { AxiosResponse } from "axios";
 
 interface IProps {
-  setUsername: React.Dispatch<React.SetStateAction<string>>
+  setUserData: React.Dispatch<React.SetStateAction<T_USER_DATA>>
 }
 
 const Register: React.FC<IProps> = (props) => {

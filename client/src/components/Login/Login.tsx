@@ -1,11 +1,12 @@
 import styles from "./Login.module.scss";
 import { useState } from "react";
-import { type T_APIRESULT_VALID, type T_FORMINFO_LOGIN } from "../../types";
+import { T_APIRESULT_LOGIN, T_USER_DATA, type T_FORMINFO_LOGIN } from "../../types";
 import { apiRequestLogin } from "../../methods/requests";
-import { AxiosError, AxiosResponse, HttpStatusCode } from "axios";
+import { AxiosResponse } from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface IProps {
-  setUsername: React.Dispatch<React.SetStateAction<string>>
+  setUserData: React.Dispatch<React.SetStateAction<T_USER_DATA>>
 }
 
 const Login: React.FC<IProps> = (props) => {
@@ -13,9 +14,14 @@ const Login: React.FC<IProps> = (props) => {
     username: "",
     password: "",
   });
+  const [isError, setIsError] = useState<boolean>(false);
+
+  const navigate = useNavigate()
 
   function inputHandler(e: React.ChangeEvent<HTMLInputElement>): void {
     setUserFormInfo((userFormInfo: T_FORMINFO_LOGIN) => {
+      isError && setIsError(false);
+
       return {
         ...userFormInfo,
         [e.target.name]: e.target.value,
@@ -25,14 +31,19 @@ const Login: React.FC<IProps> = (props) => {
 
   async function login(): Promise<void> {
     try {
-      const res: AxiosResponse<T_APIRESULT_VALID> = await apiRequestLogin(
+      const res: AxiosResponse<T_APIRESULT_LOGIN> = await apiRequestLogin(
         userFormInfo
       );
-      console.log(`login valid: ${res.data.valid}`);
-      console.log(res.status);
+      console.log(res.data)
+
+      props.setUserData({ username: userFormInfo.username, user_id: res.data.user_id })
+      navigate("/");
+
     } catch (err) {
       console.log(err)
+      setIsError(true);
     }
+
   }
 
   return (
@@ -68,6 +79,9 @@ const Login: React.FC<IProps> = (props) => {
         <button className="btn btn-primary me-3" onClick={login}>
           Login
         </button>
+        {isError &&
+          <div>Incorrect Password, try again</div>
+        }
       </div>
     </div>
   );

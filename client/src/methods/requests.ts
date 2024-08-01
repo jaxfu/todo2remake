@@ -4,6 +4,7 @@ import {
   type T_APIRESULT_VALID,
   type T_FORMINFO_LOGIN,
   type T_TODO,
+  type T_APIRESULT_LOGIN,
 } from "../types";
 
 // Routes
@@ -20,8 +21,8 @@ const API_ROUTES = {
 
 export async function apiRequestLogin(
   formInfo: T_FORMINFO_LOGIN
-): Promise<AxiosResponse<T_APIRESULT_VALID>> {
-  return await axios<T_APIRESULT_VALID>({
+): Promise<AxiosResponse<T_APIRESULT_LOGIN>> {
+  return await axios<T_APIRESULT_LOGIN>({
     method: "POST",
     url: API_ROUTES.LOGIN,
     data: {
@@ -48,14 +49,14 @@ export async function apiRequestRegister(
 }
 
 export async function apiRequestGetTodos(
-  username: string
+  userID: number
 ): Promise<AxiosResponse<T_TODO[]>> {
   try {
     return await axios<T_TODO[]>({
       method: "POST",
       url: API_ROUTES.GET_TODOS,
       data: {
-        username,
+        user_id: userID,
       },
     });
   } catch (err: any) {

@@ -30,6 +30,7 @@ func GetTodos(db *dbHandler.DBHandler) gin.HandlerFunc {
 			ctx.JSON(http.StatusBadRequest, response)
 			return
 		}
+		fmt.Printf("payload: %+v\n", payload)
 
 		// get todos from db
 		todos, err := db.GetTodosByUserID(payload.UserID)

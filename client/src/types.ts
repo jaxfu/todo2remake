@@ -14,7 +14,7 @@ export type T_FORMINFO_LOGIN = {
 };
 
 export type T_APIRESULT_LOGIN = {
-  valid: boolean;
+  user_id: number;
 };
 
 export type T_TODO = {
@@ -22,3 +22,8 @@ export type T_TODO = {
   title: string;
   content: string;
 };
+
+export type T_USER_DATA = {
+  username: string;
+  user_id: number;
+}

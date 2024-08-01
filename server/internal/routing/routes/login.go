@@ -13,7 +13,7 @@ import (
 func Login(db *dbHandler.DBHandler) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var payload types.RequestLogin
-		response := types.ResponseValid{Valid: false}
+		response := types.ResponseLoginRegister{UserID: 0}
 
 		// bind request body to payload
 		if err := ctx.BindJSON(&payload); err != nil {
@@ -43,6 +43,7 @@ func Login(db *dbHandler.DBHandler) gin.HandlerFunc {
 			return
 		}
 
-		ctx.JSON(http.StatusOK, types.ResponseValid{Valid: true})
+		response.UserID = userData.UserID
+		ctx.JSON(http.StatusOK, response)
 	}
 }
