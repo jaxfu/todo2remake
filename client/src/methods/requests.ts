@@ -7,6 +7,7 @@ import {
   type T_APIRESULT_LOGIN,
   type T_APIREQUEST_ADD_TODO,
   type T_APIREQUEST_UPDATE_TODO,
+  type T_APIREQUEST_DELETE_TODO,
 } from "../types";
 
 // Routes
@@ -46,7 +47,7 @@ export async function apiRequestRegister(
       },
     });
   } catch (err: any) {
-    throw new Error(err);
+    throw err
   }
 }
 
@@ -62,7 +63,7 @@ export async function apiRequestGetTodos(
       },
     });
   } catch (err: any) {
-    throw new Error(err);
+    throw err
   }
 }
 
@@ -79,23 +80,23 @@ export async function apiRequestAddTodo(
       },
     });
   } catch (err: any) {
-    throw new Error(err);
+    throw err
   }
 }
 
 export async function apiRequestDeleteTodo(
-  id: number
+  info: T_APIREQUEST_DELETE_TODO
 ): Promise<AxiosResponse<T_APIRESULT_VALID>> {
   try {
     return await axios<T_APIRESULT_VALID>({
       method: "DELETE",
       url: API_ROUTES.DELETE_TODO,
       data: {
-        id,
+        ...info
       },
     });
   } catch (err: any) {
-    throw new Error(err);
+    throw err
   }
 }
 
@@ -109,6 +110,6 @@ export async function apiRequestUpdateTodo(
       data: { ...info },
     });
   } catch (err: any) {
-    throw new Error(err);
+    throw err
   }
 }

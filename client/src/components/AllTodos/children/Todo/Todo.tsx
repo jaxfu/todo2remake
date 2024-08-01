@@ -42,7 +42,7 @@ const Todo: React.FC<IProps> = (props) => {
               </button>
               <button
                 className="btn btn-secondary text-light"
-                onClick={() => mutation.mutate(props.todo.todo_id)}
+                onClick={() => mutation.mutate({ user_id: props.userID, todo_id: props.todo.todo_id })}
               >
                 Delete
               </button>

@@ -33,3 +33,5 @@ export type T_APIREQUEST_ADD_TODO = T_TODO &
 
 export type T_APIREQUEST_UPDATE_TODO = T_TODO &
 { user_id: number }
+
+export type T_APIREQUEST_DELETE_TODO = { user_id: number, todo_id: number }
