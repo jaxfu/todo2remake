@@ -50,7 +50,7 @@ func main() {
 	router.POST(routeURL.Login, routes.Login(db))
 	router.POST(routeURL.GetTodos, todos.GetTodos(db))
 	router.POST(routeURL.AddTodo, todos.AddTodo(db))
-	router.PUT(routeURL.UpdateTodo, todos.UpdateTodo())
+	router.PUT(routeURL.UpdateTodo, todos.UpdateTodo(db))
 	router.DELETE(routeURL.DeleteTodo, todos.DeleteTodo())
 
 	// server react bundle

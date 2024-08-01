@@ -10,7 +10,7 @@ interface IProps {
 }
 
 const NewTodo: React.FC<IProps> = (props) => {
-  const [todo, setTodo] = useState<T_TODO>({ id: 0, title: "", content: "" });
+  const [todo, setTodo] = useState<T_TODO>({ todo_id: 0, title: "", content: "" });
 
   const queryClient = useQueryClient();
 

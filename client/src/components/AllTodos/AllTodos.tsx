@@ -49,7 +49,7 @@ const AllTodos: React.FC<IProps> = (props) => {
         )}
 
         {todos.length > 0 && todos.map((todo) => (
-          <Todo key={todo.id} todo={todo} />
+          <Todo key={todo.todo_id} todo={todo} userID={props.userData.user_id} />
         ))}
       </div>
     );

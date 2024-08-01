@@ -6,6 +6,7 @@ import {
   type T_TODO,
   type T_APIRESULT_LOGIN,
   type T_APIREQUEST_ADD_TODO,
+  type T_APIREQUEST_UPDATE_TODO,
 } from "../types";
 
 // Routes
@@ -99,14 +100,13 @@ export async function apiRequestDeleteTodo(
 }
 
 export async function apiRequestUpdateTodo(
-  todo: T_TODO
+  info: T_APIREQUEST_UPDATE_TODO
 ): Promise<AxiosResponse<T_APIRESULT_VALID>> {
-  console.log(todo);
   try {
     return await axios<T_APIRESULT_VALID>({
       method: "PUT",
       url: API_ROUTES.UPDATE_TODO,
-      data: { ...todo },
+      data: { ...info },
     });
   } catch (err: any) {
     throw new Error(err);

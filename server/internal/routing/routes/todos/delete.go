@@ -33,7 +33,7 @@ func DeleteTodo() gin.HandlerFunc {
 
 		// remove todo from slice by ID
 		// TODO: remove from db
-		TestTodos = filter(TestTodos, payload.ID)
+		// TestTodos = filter(TestTodos, payload.ID)
 
 		// set response to valid and send
 		response.Valid = true
@@ -46,7 +46,7 @@ func filter(todos []types.Todo, id uint) []types.Todo {
 	var filtered []types.Todo
 
 	for _, todo := range todos {
-		if todo.ID != id {
+		if todo.TodoID != id {
 			filtered = append(filtered, todo)
 		}
 	}
